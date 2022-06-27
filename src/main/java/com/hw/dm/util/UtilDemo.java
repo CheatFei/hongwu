@@ -2,8 +2,10 @@ package com.hw.dm.util;
 
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * 常用utils
@@ -11,10 +13,10 @@ import java.util.Collections;
 public class UtilDemo {
 
     public static void main(String[] args) {
-        Collections.sort(new ArrayList<String>());
-        CollectionUtils.isEmpty(new ArrayList<>());
 
-
+        List<String> strings = new ArrayList<>();
+        System.out.println(CollectionUtils.isEmpty(strings));
+        System.out.println(new BigDecimal(""));
 
     }
 
