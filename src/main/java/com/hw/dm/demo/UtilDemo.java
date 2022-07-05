@@ -1,13 +1,14 @@
 package com.hw.dm.demo;
 
-import com.hw.dm.domain.enums.errcode.ZeroErr;
-import com.hw.dm.exception.ZeroException;
-import org.springframework.util.CollectionUtils;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
+import com.hw.dm.util.DateUtils;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 常用utils
@@ -16,24 +17,35 @@ public class UtilDemo {
 
     public static void main(String[] args) {
 
-        BigDecimal bigDecimal = new BigDecimal("1.1151");
 
-        BigDecimal c1 = bigDecimal.setScale(2, BigDecimal.ROUND_CEILING);
-        BigDecimal c2 = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN);
-        BigDecimal c3 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
-        BigDecimal c4 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-        System.out.println(c1);
-        System.out.println(c2);
-        System.out.println(c3);
-        System.out.println(c4);
+    }
 
-        BigDecimal res = bigDecimal.divide(new BigDecimal("3")).setScale(2, BigDecimal.ROUND_CEILING);
-        BigDecimal res2 = bigDecimal.divide(new BigDecimal("3"));
-        System.out.println(res);
-        System.out.println(res2);
+    public void changeLocalDate() {
+        LocalDateTime beginDate = DateUtils.parseDateTimeLenient("2022-07-01");
+        LocalDateTime endDate = DateUtils.parseDateTimeLenient("2022-07-04");
 
-        throw new ZeroException(ZeroErr.ZERO_ERR_001);
+        long max = Math.max(ChronoUnit.DAYS.between(beginDate, endDate) + 1, 0);
+        System.out.println(max);
 
+
+        List<LocalDate> dayList = Stream
+                .iterate(beginDate, (LocalDateTime i) -> i.plusDays(1))
+                .limit(Math.max(ChronoUnit.DAYS.between(beginDate, endDate) + 1, 0))
+                .map(LocalDateTime::toLocalDate).collect(Collectors.toList());
+        System.out.println(dayList);
+    }
+
+    private void objectDemo() {
+        UserDemo demo = new UserDemo("", "", 12);
+        System.out.println(demo);
+        changeUserInfo(demo);
+        System.out.println(demo);
+    }
+
+    private void changeUserInfo(UserDemo demo) {
+        demo.setName("张三");
+        demo.setAge(22);
+        demo.setSex("男");
     }
 
     /**
